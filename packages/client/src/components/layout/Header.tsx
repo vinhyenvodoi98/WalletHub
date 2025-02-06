@@ -29,7 +29,7 @@ export default function Header() {
                 <span className="badge badge-xs badge-primary indicator-item"></span>
               </div>
             </button>
-            <Wallet />
+            {/* <Wallet /> */}
           </div>
         </div>
       </div>
