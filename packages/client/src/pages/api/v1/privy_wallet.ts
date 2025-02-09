@@ -1,14 +1,5 @@
-import { PrivyClient } from '@privy-io/server-auth';
 import { NextApiRequest, NextApiResponse } from 'next';
-
-if (!process.env.PRIVY_APP_ID || !process.env.PRIVY_APP_SECRET) {
-  throw new Error('Missing required Privy environment variables');
-}
-
-const privy = new PrivyClient(
-  process.env.PRIVY_APP_ID,
-  process.env.PRIVY_APP_SECRET
-);
+import { privy } from '@/lib/privy';
 
 export default async function handler(
   req: NextApiRequest,

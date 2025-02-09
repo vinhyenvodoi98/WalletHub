@@ -1,27 +1,17 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import SendEthModal from '@/components/SendEthModal';
-import { usePrivy } from '@privy-io/react-auth';
 import History from '@/components/History';
 import { SwapComponent } from '@/components/Swap';
 import { useBalance } from 'wagmi';
 import Policy from '@/components/Policy';
+import Fund from '@/components/Fund';
 
 export default function WalletPage() {
   const router = useRouter();
   const { address } = router.query;
-  const [amount, setAmount] = useState('');
-  const [recipientAddress, setRecipientAddress] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const { user } = usePrivy();
   const [balance, setBalance] = useState<string>('');
   const [activeTab, setActiveTab] = useState('fund'); // 'fund', 'policy', 'swap', 'history'
-
-  const handleSend = async () => {
-    // Implement send transaction logic
-    console.log('Sending', amount, 'to', recipientAddress);
-  };
 
   const { data: balanceData } = useBalance({
     address: address as `0x${string}`,
@@ -91,49 +81,7 @@ export default function WalletPage() {
 
           {/* Tab Content */}
           {activeTab === 'fund' && (
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-white rounded-xl shadow-lg p-8">
-                <h2 className="text-2xl font-bold mb-6">Fund Wallet</h2>
-                <button
-                  onClick={() => setIsModalOpen(true)}
-                  className="w-full bg-green-500 text-white py-4 px-6 rounded-lg text-xl font-bold hover:bg-green-600 transition-colors"
-                >
-                  Fund Wallet
-                </button>
-              </div>
-                        {/* Send Transaction Card */}
-              <div className="bg-white rounded-xl shadow-lg p-8">
-                <h2 className="text-2xl font-bold mb-6">Send Transaction</h2>
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-gray-700 mb-2">Amount (ETH)</label>
-                    <input
-                      type="number"
-                      value={amount}
-                      onChange={(e) => setAmount(e.target.value)}
-                      className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      placeholder="0.0"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-gray-700 mb-2">Recipient Address</label>
-                    <input
-                      type="text"
-                      value={recipientAddress}
-                      onChange={(e) => setRecipientAddress(e.target.value)}
-                      className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      placeholder="0x..."
-                    />
-                  </div>
-                  <button
-                    onClick={handleSend}
-                    className="w-full bg-blue-500 text-white py-4 px-6 rounded-lg text-xl font-bold hover:bg-blue-600 transition-colors"
-                  >
-                    Send
-                  </button>
-                </div>
-              </div>
-          </div>
+            <Fund />
           )}
 
           {activeTab === 'policy' && (
@@ -147,16 +95,6 @@ export default function WalletPage() {
 
           {activeTab === 'history' && <History />}
         </div>
-
-        <SendEthModal
-          isOpen={isModalOpen}
-          onClose={() => {
-            setIsModalOpen(false);
-            router.push(`/wallet/${address}`, undefined, { shallow: true });
-          }}
-          fromAddress={user?.wallet?.address as string}
-          toAddress={address as string}
-        />
       </div>
     </div>
   );
