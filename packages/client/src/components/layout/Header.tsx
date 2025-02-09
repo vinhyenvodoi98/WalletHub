@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+import LoginButton from '../LoginButton';
+
 export default function Header() {
   return (
     <header className='sticky top-0 z-50 w-full'>
@@ -14,9 +16,7 @@ export default function Header() {
             </Link>
           </div>
           <div className="navbar-end">
-            <button className="text-xl font-bold px-6 py-2 bg-blue-500 rounded-full hover:bg-blue-600 transition-all hover:scale-105">
-              Connect
-            </button>
+            <LoginButton />
           </div>
         </div>
       </div>
