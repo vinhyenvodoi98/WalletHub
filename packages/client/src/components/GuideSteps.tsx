@@ -58,6 +58,16 @@ export default function GuideSteps() {
     },
     {
       id: 5,
+      title: 'Enable the server-wallet',
+      description: 'Click the "Enable Server-Wallet" button to enable the server-wallet.',
+      instruction: 'To enable the server-wallet:',
+      image: {
+        src: '/images/screen-guide-3.png',
+        alt: 'enable server wallet'
+      }
+    },
+    {
+      id: 6,
       title: 'Additional configuration',
       description: 'You can configure the policy of the wallet in the wallet page',
     }

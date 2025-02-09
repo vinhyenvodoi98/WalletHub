@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 import WalletCreator from '@/components/WalletCreator';
+import WalletCard from '@/components/WalletCard';
 
 import { shortenAddress } from '@/utils/addresses';
 
@@ -49,24 +50,10 @@ export default function AppPage() {
             {/* Wallets Grid */}
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {wallets.map((wallet) => (
-                <Link
+                <WalletCard
                   key={wallet.address}
-                  href={`/wallet/${wallet.address}`}
-                  className="block bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow"
-                >
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <div className="text-sm text-gray-500 font-mono">{shortenAddress(wallet.address)}</div>
-                    </div>
-                    <div className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
-                      Active
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-gray-600 mb-1">Balance</div>
-                    <div className="text-2xl font-bold">1</div>
-                  </div>
-                </Link>
+                  address={wallet.address}
+                />
               ))}
 
               {/* Add New Wallet Card */}
