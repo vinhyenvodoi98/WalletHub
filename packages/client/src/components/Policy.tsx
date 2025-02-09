@@ -38,9 +38,25 @@ export default function Policy() {
 
   const handleSavePolicy = async () => {
     try {
-      // TODO: Implement API call to save policy
+      const response = await fetch('/api/v1/policy', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          denyList: config.denyList,
+          dailyLimit: config.dailyLimit,
+          transactionLimit: config.transactionLimit,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update policy');
+      }
+
       toast.success('Policy updated successfully');
     } catch (error) {
+      console.error('Error updating policy:', error);
       toast.error('Failed to update policy');
     }
   };
@@ -122,4 +138,4 @@ export default function Policy() {
       </div>
     </div>
   );
-} 
+}

@@ -6,6 +6,7 @@ import { SwapComponent } from '@/components/Swap';
 import { useBalance } from 'wagmi';
 import Policy from '@/components/Policy';
 import Fund from '@/components/Fund';
+import Schedule from '@/components/Schedule';
 
 export default function WalletPage() {
   const router = useRouter();
@@ -53,7 +54,14 @@ export default function WalletPage() {
             Swap
           </button>
           <button
-            onClick={() => setActiveTab('history')}
+            onClick={() => setActiveTab('schedule')}
+            className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${
+              activeTab === 'schedule' ? 'bg-blue-500 text-white' : 'hover:bg-gray-100'
+            }`}
+          >
+            Schedule
+          </button>
+          <button
             className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${
               activeTab === 'history' ? 'bg-blue-500 text-white' : 'hover:bg-gray-100'
             }`}
@@ -92,6 +100,8 @@ export default function WalletPage() {
           )}
 
           {activeTab === 'swap' && <SwapComponent />}
+
+          {activeTab === 'schedule' && <Schedule />}
 
           {activeTab === 'history' && <History />}
         </div>
