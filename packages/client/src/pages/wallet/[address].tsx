@@ -7,6 +7,7 @@ import { useBalance } from 'wagmi';
 import Policy from '@/components/Policy';
 import Fund from '@/components/Fund';
 import Schedule from '@/components/Schedule';
+import { ChatBot } from '@/components/ChatBot';
 
 export default function WalletPage() {
   const router = useRouter();
@@ -36,6 +37,14 @@ export default function WalletPage() {
             }`}
           >
             Fund Wallet
+          </button>
+          <button
+            onClick={() => setActiveTab('chat')}
+            className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${
+              activeTab === 'chat' ? 'bg-blue-500 text-white' : 'hover:bg-gray-100'
+            }`}
+          >
+            Chat
           </button>
           <button
             onClick={() => setActiveTab('policy')}
@@ -98,6 +107,8 @@ export default function WalletPage() {
               <Policy />
             </div>
           )}
+
+          {activeTab === 'chat' && <ChatBot />}
 
           {activeTab === 'swap' && <SwapComponent />}
 
