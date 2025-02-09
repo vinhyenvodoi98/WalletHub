@@ -1,5 +1,7 @@
 import {usePrivy} from '@privy-io/react-auth';
 
+import { shortenAddress } from '@/utils/addresses';
+
 export default function LoginButton() {
   const {ready, authenticated, login, user} = usePrivy();
   const disableLogin = !ready || (ready && authenticated);
@@ -7,7 +9,7 @@ export default function LoginButton() {
   if (authenticated && user?.wallet?.address) {
     return (
       <div className="text-xl font-bold px-6 py-2 bg-blue-500 rounded-full">
-        {user.wallet.address.slice(0, 6)}...{user.wallet.address.slice(-4)}
+        {shortenAddress(user.wallet.address)}
       </div>
     );
   }
