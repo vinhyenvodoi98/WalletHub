@@ -23,6 +23,13 @@ export default function Providers({children}: {children: React.ReactNode}) {
         embeddedWallets: {
           createOnLogin: 'users-without-wallets',
         },
+        fundingMethodConfig: {
+          moonpay: {
+            useSandbox: true,
+            paymentMethod: 'credit_debit_card', // Purchase with credit or debit card
+            uiConfig: {accentColor: '#696FFD', theme: 'light'}, // Styling preferences for MoonPay's UIs
+          },
+        },
       }}
     >
       {children}

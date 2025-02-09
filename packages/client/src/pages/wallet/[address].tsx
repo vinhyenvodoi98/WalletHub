@@ -1,16 +1,22 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import SendEthModal from '@/components/SendEthModal';
+import { usePrivy } from '@privy-io/react-auth';
 
 export default function WalletPage() {
   const router = useRouter();
   const { address } = router.query;
   const [amount, setAmount] = useState('');
   const [recipientAddress, setRecipientAddress] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { user } = usePrivy();
 
-  const handleFund = async () => {
-    // Implement funding logic
-    console.log('Funding wallet:', address);
-  };
+  // Show modal automatically if 'to' address is present in query
+  useEffect(() => {
+    if (address) {
+      setIsModalOpen(true);
+    }
+  }, [address]);
 
   const handleSend = async () => {
     // Implement send transaction logic
@@ -35,7 +41,7 @@ export default function WalletPage() {
           <div className="bg-white rounded-xl shadow-lg p-8">
             <h2 className="text-2xl font-bold mb-6">Fund Wallet</h2>
             <button
-              onClick={handleFund}
+              onClick={() => setIsModalOpen(true)}
               className="w-full bg-green-500 text-white py-4 px-6 rounded-lg text-xl font-bold hover:bg-green-600 transition-colors"
             >
               Fund Wallet
@@ -104,6 +110,17 @@ export default function WalletPage() {
             </table>
           </div>
         </div>
+
+        <SendEthModal
+          isOpen={isModalOpen}
+          onClose={() => {
+            setIsModalOpen(false);
+            // Remove the 'to' query parameter when closing
+            router.push(`/wallet/${address}`, undefined, { shallow: true });
+          }}
+          fromAddress={user?.wallet?.address as string}
+          toAddress={address as string}
+        />
       </div>
     </div>
   );
