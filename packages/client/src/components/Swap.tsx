@@ -41,7 +41,7 @@ export const SwapComponent = () => {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto bg-white rounded-3xl shadow-lg p-6">
+    <div className="w-full max-w-md mx-auto bg-white rounded-3xl shadow-lg p-6 mt-8">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-bold">Swap</h2>
         <button className="p-2 hover:bg-gray-100 rounded-lg">
