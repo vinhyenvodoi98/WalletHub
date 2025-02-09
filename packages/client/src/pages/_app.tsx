@@ -6,6 +6,7 @@ import '@/styles/colors.css';
 import '@/styles/globals.css';
 import { useIsSsr } from '../utils/ssr';
 import Providers from '@/components/PrivyProvidor';
+import { WagmiProvider } from '@/components/WagmiProvider';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const isSsr = useIsSsr();
@@ -15,9 +16,11 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <Providers>
+      <WagmiProvider>
         <Header />
           <Component {...pageProps} />
         <ToastContainer position="bottom-right" newestOnTop />
+      </WagmiProvider>
     </Providers>
   );
 }

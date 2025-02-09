@@ -1,7 +1,11 @@
+'use client';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import SendEthModal from '@/components/SendEthModal';
 import { usePrivy } from '@privy-io/react-auth';
+import History from '@/components/History';
+import { SwapComponent } from '@/components/Swap';
+import { useBalance } from 'wagmi';
 
 export default function WalletPage() {
   const router = useRouter();
@@ -10,18 +14,22 @@ export default function WalletPage() {
   const [recipientAddress, setRecipientAddress] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { user } = usePrivy();
-
-  // Show modal automatically if 'to' address is present in query
-  useEffect(() => {
-    if (address) {
-      setIsModalOpen(true);
-    }
-  }, [address]);
+  const [balance, setBalance] = useState<string>('');
 
   const handleSend = async () => {
     // Implement send transaction logic
     console.log('Sending', amount, 'to', recipientAddress);
   };
+
+  const { data: balanceData } = useBalance({
+    address: address as `0x${string}`,
+  });
+
+  useEffect(() => {
+    if (balanceData) {
+      setBalance(balanceData.formatted.toString());
+    }
+  }, [balanceData]);
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
@@ -32,6 +40,10 @@ export default function WalletPage() {
           <div className="bg-gray-50 p-4 rounded-lg break-all">
             <span className="text-gray-500">Address: </span>
             <span className="font-mono">{address}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-gray-500">Balance: </span>
+            <span className="font-mono">{balance ? `${Number(balance).toFixed(4)} ETH` : 'Loading...'}</span>
           </div>
         </div>
 
@@ -82,34 +94,10 @@ export default function WalletPage() {
           </div>
         </div>
 
+        <SwapComponent />
+
         {/* Transaction History */}
-        <div className="bg-white rounded-xl shadow-lg p-8 mt-8">
-          <h2 className="text-2xl font-bold mb-6">Transaction History</h2>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b">
-                  <th className="text-left p-4">Type</th>
-                  <th className="text-left p-4">Amount</th>
-                  <th className="text-left p-4">To/From</th>
-                  <th className="text-left p-4">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="border-b hover:bg-gray-50">
-                  <td className="p-4">Send</td>
-                  <td className="p-4">0.1 ETH</td>
-                  <td className="p-4 font-mono">0x1234...5678</td>
-                  <td className="p-4">
-                    <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-sm">
-                      Completed
-                    </span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <History />
 
         <SendEthModal
           isOpen={isModalOpen}
