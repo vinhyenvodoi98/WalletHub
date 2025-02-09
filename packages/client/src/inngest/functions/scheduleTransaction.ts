@@ -2,7 +2,10 @@ import { privy } from '@/lib/privy';
 import { inngest } from '../client';
 
 export const scheduleTransaction = inngest.createFunction(
-  { name: 'Schedule Transaction' },
+  {
+    id: 'schedule-transaction',
+    name: 'Schedule Transaction'
+  },
   { event: 'eth/schedule.transaction' },
   async ({ event, step }: {
     event: {
